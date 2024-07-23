@@ -5,11 +5,11 @@ After watching the awesome talk
 I decided to reproduce it for TCP connections (i.e. without the overhead for
 websocket) with the code present in this repo.
 
-The idea is to run one server instance on bare metal and multiple clients in
-Docker where each opens 25.000 connections and sends dummy messages every 10s.
-The reason for running the clients in Docker is that one TCP connection takes
-one port and there is a limited amount ephermal ports. As each connection is
-uniquely represented by a 5-tuple
+The idea is to run one server instance and multiple clients in Docker where each
+opens 25.000 connections and sends dummy messages every 10s. The reason for
+running the clients in Docker is that one TCP connection takes one port and
+there is a limited amount ephemeral ports. As each connection is uniquely
+represented by a 5-tuple
 
 ```
 (local-IP, local-port, remote-IP, remote-port, protocol)
@@ -92,14 +92,14 @@ Intel N100
 16 GB RAM
 ```
 
-and was able to open even more than 1 million TCP connections. The limitig
+and was able to open even more than 1 million TCP connections. The limiting
 factor was RAM as the Docker containers for the clients take up quite a lot of
 space.
 
 I started 10 client containers with 25.000 connections at once, waited till
 all connections were established and then started the next 10 client containers.
 
-On a more powerfull PC thinks should work faster.
+On a more powerful PC things should work faster.
 
 **Remark:** I installed Docker as described
 [here](https://docs.docker.com/engine/install/ubuntu/#installation-methods).
