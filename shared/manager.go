@@ -37,8 +37,13 @@ func (m *ConnManager) RemoveConn(conn net.Conn) {
 
 func (m *ConnManager) WriteDummyMsg() {
 	m.mu.Lock()
-	defer m.mu.Unlock()
+	conns := make([]net.Conn, 0, len(m.conns))
 	for conn := range m.conns {
+		conns = append(conns, conn)
+	}
+	m.mu.Unlock()
+
+	for _, conn := range conns {
 		_, err := conn.Write([]byte("hello tcp"))
 		if err != nil {
 			m.RemoveConn(conn)
